@@ -1,0 +1,33 @@
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_database
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ojimenez
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: piscineds
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - /home/ojimenez/Documents/Cursus/Piscine_Data_Science/Datascience-0/ex02:/docker-entrypoint-initdb.d
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_database
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: orioljg2002@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
