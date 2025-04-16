@@ -17,6 +17,6 @@ clean:
 
 fclean: clean
 	docker volume rm postgres_data pgadmin_data 2>/dev/null || true
-	docker network prune -f --force
+	docker network prune -f
 
 re: fclean up
