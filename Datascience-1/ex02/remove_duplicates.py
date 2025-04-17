@@ -22,7 +22,7 @@ query = """
     ),
     FilteredRows AS (
         SELECT event_time, event_type, product_id FROM DuplicateRows
-        WHERE prev_event_time IS NULL OR EXTRACT(EPOCH FROM (event_time - prev_event_time)) > 1
+        WHERE prev_event_time IS NULL OR event_time - prev_event_time = '0 seconds' OR event_time - prev_event_time = '1 second'
     )
     DELETE FROM customers 
     WHERE (event_time, event_type, product_id) NOT IN (
