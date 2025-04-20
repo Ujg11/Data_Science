@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_data
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: piscineds
+      POSTGRES_USER: ojimenez
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - piscine_net
+
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb_data
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: "postgres://ojimenez:mysecretpassword@db:5432/piscineds?sslmode=disable"
+    depends_on:
+      - db
+    networks:
+      - piscine_net
+
+volumes:
+  postgres_data:
+
+networks:
+  piscine_net:
+    driver: bridge
